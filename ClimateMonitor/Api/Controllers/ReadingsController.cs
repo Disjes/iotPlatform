@@ -10,6 +10,7 @@ public class ReadingsController : ControllerBase
 {
     private readonly DeviceSecretValidatorService _secretValidator;
     private readonly AlertService _alertService;
+    private const string DeviceSharedSecretHeader = "x-device-shared-secret";
 
     public ReadingsController(
         DeviceSecretValidatorService secretValidator, 
@@ -34,7 +35,7 @@ public class ReadingsController : ControllerBase
     /// <param name="deviceReadingRequest">Sensor information and extra metadata from device.</param>
     [HttpPost("evaluate")]
     public ActionResult<IEnumerable<Alert>> EvaluateReading(
-        string deviceSecret,
+        [FromHeader(Name = DeviceSharedSecretHeader)] string deviceSecret,
         [FromBody] DeviceReadingRequest deviceReadingRequest)
     {
         if (!_secretValidator.ValidateDeviceSecret(deviceSecret))

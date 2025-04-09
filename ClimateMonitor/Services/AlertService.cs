@@ -7,12 +7,12 @@ public class AlertService
     private static readonly HashSet<Func<DeviceReadingRequest, Alert?>> SensorValidators = new()
     {
         deviceReading =>
-            deviceReading.Humidity is < 0 or > 100 
+            deviceReading.Humidity is < 0 or > 100
             ? new Alert(AlertType.HumiditySensorOutOfRange, "Humidity sensor is out of range.")
             : default,
 
         deviceReading => 
-            deviceReading.Humidity is < -10 or > 50 
+            deviceReading.Temperature is < -10 or > 50 
             ? new Alert(AlertType.TemperatureSensorOutOfRange, "Temperature sensor is out of range.")
             : default,
     };
